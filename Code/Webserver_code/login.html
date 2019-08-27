@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<title>Quest 6 Client</title>
+<script src="/socket.io/socket.io.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<style>
+body,h1 {font-family: "Raleway", sans-serif}
+body, html {height: 100%}
+.bgimg {
+    /* background-image: url('/w3images/forestbridge.jpg'); */
+    min-height: 100%;
+    background-position: center;
+    background-size: cover;
+}
+</style>
+<body>
+<div class="bgimg w3-display-container w3-text-black">
+  <div class="w3-display-topleft w3-padding-large w3-xlarge">
+      <p class="w3-center"> <a href="/" class="w3-button w3-black w3-round w3-padding-large w3-large">Return</a></p>
+  </div>
+  <div class="w3-display-topmiddle w3-padding-small w3-center">
+    <h1 class="w3-jumbo">CONTROL HER</h1>
+    <hr class="w3-border-grey" style="margin:auto;width:40%">
+    <center>
+      <iframe src="http://192.168.1.125:8081/" height="320px" width="640px" scrolling="no"></iframe>
+        <p class="w3-center"> <a class="w3-button w3-black w3-round w3-padding-large w3-large" onclick="drive_forward()">FORWARD</a></p>
+          <p class="w3-center"> <a  class="w3-button w3-black w3-round w3-padding-large w3-large" onclick="turn_left()">LEFT</a>
+            <a class="w3-button w3-black w3-round w3-padding-large w3-large" onclick="stop()">STOP</a>
+             <a  class="w3-button w3-black w3-round w3-padding-large w3-large" onclick="turn_right()">RIGHT</a></p>
+          <p class="w3-center"> <a  class="w3-button w3-black w3-round w3-padding-large w3-large" onclick="drive_reverse()">REVERSE</a></p>
+            <a href="" target="_blank" id="end_goal"></a>
+        </center>
+
+  </div>
+
+  <div class="w3-container">
+<hr>
+<br>
+  <div class="w3-display-bottommiddle w3-padding-large">
+    <a href="https://github.com/BU-EC444/Quest6_Team16_Norman_Surman_Zaveri" target="_blank">GitHub Repository Link</a>
+  </div>
+</div>
+
+
+</body>
+<script>
+  var socket = io();
+  var direction;
+
+  function drive_forward(){
+    direction = 0;
+    socket.emit('drive', direction);
+  }
+  function turn_left(){
+    direction = 1;
+    socket.emit('drive', direction);
+  }
+  function turn_right(){
+    direction = 2;
+    socket.emit('drive', direction);
+  }
+  function drive_reverse(){
+    direction = 3;
+    socket.emit('drive', direction);
+  }
+  function stop(){
+    direction = 4;
+    socket.emit('drive', direction);
+  }
+  socket.on('url_transmit', function(url){
+    console.log(url);
+    document.getElementById("end_goal").href = "http://whizzer.bu.edu/team-quests/primary/escap";
+    if (url!=""){
+        document.getElementById("end_goal").innerHTML = "Link Ready";
+    }
+
+  });
+</script>
+</html>
